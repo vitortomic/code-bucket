@@ -1,63 +1,54 @@
 private Cancellable actorRecoveryScheduledTask;
-	
-	/**
-	 * schedules execution of job request day expiration recovery actor
-	 */
-	public void scheduleJobExpirationActorsRecovery(){
-		ActorSystem akkaSystem = Akka.system();
-		FiniteDuration firstExecution = Duration.create(0, TimeUnit.MILLISECONDS);
-		FiniteDuration nextExecutionDelay = Duration.create(6, TimeUnit.HOURS);
-		actorRecoveryScheduledTask = akkaSystem.scheduler()
-				.schedule(firstExecution, nextExecutionDelay, getExpirationActorsRecoveryTask(), Akka.system().dispatcher());
-	}
-	
-	/**
-	 * get job expiration recovery actor task
-	 * @return
-	 */
-	private Runnable getExpirationActorsRecoveryTask(){
-		final String akkaPath = "akka://application/user/";
-		final String actorName = AkkaController.RECOVERY_JOB_REQUEST_DAY_CANCEL_ACTOR_NAME;
-		
-		Runnable task =  new Runnable(){
-			@Override
-			public void run(){
-				ActorSelection actorSelection =  Akka.system().actorSelection(akkaPath + actorName);
-				Future<ActorRef> future  = actorSelection.resolveOne(new Timeout(5, TimeUnit.SECONDS));
-				future.onComplete(tellJobExpirationRecoveryActorToStart(actorName), Akka.system().dispatcher());
-			};
+
+/**
+ * schedules execution of job request day expiration recovery actor
+ */
+public void scheduleJobExpirationActorsRecovery(){
+	ActorSystem akkaSystem = Akka.system();
+	FiniteDuration firstExecution = Duration.create(0, TimeUnit.MILLISECONDS);
+	FiniteDuration nextExecutionDelay = Duration.create(6, TimeUnit.HOURS);
+	actorRecoveryScheduledTask = akkaSystem.scheduler()
+			.schedule(firstExecution, nextExecutionDelay, getExpirationActorsRecoveryTask(), Akka.system().dispatcher());
+}
+
+/**
+ * get job expiration recovery actor task
+ * @return
+ */
+private Runnable getExpirationActorsRecoveryTask(){
+	final String akkaPath = "akka://application/user/";
+	final String actorName = AkkaController.RECOVERY_JOB_REQUEST_DAY_CANCEL_ACTOR_NAME;
+
+	Runnable task =  new Runnable(){
+		@Override
+		public void run(){
+			ActorSelection actorSelection =  Akka.system().actorSelection(akkaPath + actorName);
+			Future<ActorRef> future  = actorSelection.resolveOne(new Timeout(5, TimeUnit.SECONDS));
+			future.onComplete(getTaskForTellingRecoveryActorToStart(actorName), Akka.system().dispatcher());
 		};
-		return task;
-	}
-	
-	/**
-	 * tells job expiration recovery actor to begin restarting expiration actors
-	 * @param actorName
-	 * @return
-	 */
-	private OnComplete<ActorRef> tellJobExpirationRecoveryActorToStart(final String actorName){
-		OnComplete<ActorRef> onCompleteAction = new OnComplete<ActorRef>() {
-			@Override
-		    public void onComplete(Throwable excp, ActorRef child)
-		            throws Throwable {
-		        // ActorNotFound will be the Throwable if actor not exists
-		        if (excp != null) {
-		        	//actor not found
-		        	Logger.info("Actor with name: " + actorName + " not found");
-		        } else {
-		        	Logger.info("Sending job request expiration actor recovery message to recovery actor");
-		        	child.tell(RestartJobRequestDayCancelActor.MESSAGE_TYPE_RECOVERY_JOB_REQUEST_CANCEL_ACTOR, null);
-		        }
-		    }
-		};
-		return onCompleteAction;
-	}
-	
-	/**
-	 * cancel scheduled tasks on application stop
-	 */
-	@Override
-	public void onStop(play.Application arg0) {
-		actorRecoveryScheduledTask.cancel();
-	    super.onStop(arg0);
-	}
+	};
+	return task;
+}
+
+/**
+ * returns a task that when executed tells job expiration recovery actor to begin restarting expiration actors
+ * @param actorName
+ * @return
+ */
+private OnComplete<ActorRef> getTaskForTellingRecoveryActorToStart(final String actorName){
+	OnComplete<ActorRef> onCompleteAction = new OnComplete<ActorRef>() {
+		@Override
+	    public void onComplete(Throwable excp, ActorRef child)
+		    throws Throwable {
+		// ActorNotFound will be the Throwable if actor not exists
+		if (excp != null) {
+			//actor not found
+			Logger.info("Actor with name: " + actorName + " not found");
+		} else {
+			Logger.info("Sending job request expiration actor recovery message to recovery actor");
+			child.tell(RestartJobRequestDayCancelActor.MESSAGE_TYPE_RECOVERY_JOB_REQUEST_CANCEL_ACTOR, null);
+		}
+	    }
+	};
+	return onCompleteAction;
+}
