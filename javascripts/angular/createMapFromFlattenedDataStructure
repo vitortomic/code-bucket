@@ -88,3 +88,8 @@ var category = {
   "user": null,
   "businessPartnerOffer": null
 }
+/**
+	sectors categories and subcategories are all stored in the same table in the database, The relations are defined by heirarchyLevel and parentErpId fields.
+	Sectors have heriarchy level 0, categories 1 and subcategories 2. The parent of subcategory is category, the parent of category is a sector.
+	This code constructs a map to properly organize all the category elements and then converts them to arrays so they can be used in combination with ng-repeat to display them in a view.
+*/
