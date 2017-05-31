@@ -1,0 +1,5 @@
+public static String getJobDatesStringFromJobRequest(JobRequest jobRequest){
+		StringJoiner joiner = new StringJoiner(", ");
+		jobRequest.availabilities.stream().forEach((jr) -> joiner.add(formatDate(jr.date, "EEEE, MM/dd/yy")));
+		return joiner.toString();
+	}
