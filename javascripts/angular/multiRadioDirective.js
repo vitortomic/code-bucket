@@ -73,4 +73,5 @@ controller : function($scope) {
 })
 /*<buttons-radio-multiselect class="btn-group" data-toggle="buttons-radio-multiselect"
 					modeli='offersCtrl.selectedStatuses' optionsi='offersCtrl.statuses'
-					 result='offersCtrl.statusSelected' exclusive='offersCtrl.exclusiveOptions'></buttons-radio-multiselect>*/
+					 result='offersCtrl.statusSelected' exclusive='offersCtrl.exclusiveOptions'>
+</buttons-radio-multiselect>*/
