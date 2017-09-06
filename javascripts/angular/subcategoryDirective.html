@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example - example-ngValue-directive-production</title>
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  
+
+  
+</head>
+<body ng-app="subcategoryExample">
+  <script>
+   angular.module('subcategoryExample', [])
+     .controller('ExampleController', ['$scope', function($scope) {
+       $scope.options =  [ 
+							{option:'EXPIRED', subcategories: ['Poor Quality Applicants', 'Applicants Out of Range', 'Dislike of Fees', 'Incorrect Post','Forgot about Post']},
+							{option:'LOST', subcategories: ['Internally Filled', 'Externally Filled']},
+							{option:'INVALID', subcategories: []},
+							{option:'PCANCELLED', subcategories: ['Didn’t Like Office', 'Employer Conflict', 'Illness', 'Personal Matter', 'Transportation','Weather', 'Other']},
+							{option:'OCANCELLED', subcategories: ['Change in Needs/Schedule','Not Enough Applicants Fast Enough','Canceled Work Day','Weather','Didn\'t Like Applicant',
+								'Filled Through Other Means','Other']},
+							{option:'TRIAL', subcategories: []},
+							{option:'ACANCELLED', subcategories: []}];
+       
+       $scope.category;
+       $scope.subcategory;
+       
+     }]).directive('subcategoryDropdown',
+			function(){
+				return{
+					restrict: 'E',
+					scope: {
+						parentCategory : '=',
+						subCategory : '=',
+						options : '='
+					},
+					controller : function($scope){
+						
+					},
+					template : '<select class="dropdown"'+
+                      ' data-ng-model="parentCategory"'+
+                      ' data-ng-options="category as category.option for category in options"'+
+                      ' ng-change="alert(category)">'+
+                     ' </select><br/>'+
+                     ' <select class="dropdown"'+
+                          'data-ng-model="subCategory" ng-show="parentCategory.subcategories.length>0"'+
+                          'data-ng-options="subcategory as subcategory for subcategory in parentCategory.subcategories">'+
+                      '</select>'
+				}
+				
+})
+</script>
+ <form ng-controller="ExampleController">
+   
+    <subcategory-dropdown parent-category="category" sub-category="subcategory" options="options"></subcategory-dropdown>
+    <br/>
+    Selected category: {{category.option || "None"}}
+    <br/>
+    Selected subcategory: {{subcategory || "None"}}
+ </form>
+ 
+
+</body>
+</html>
