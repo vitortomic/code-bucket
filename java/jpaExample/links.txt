@@ -1,0 +1,2 @@
+https://marcin-chwedczuk.github.io/mapping-inheritance-in-hibernate
+https://www.thoughts-on-java.org/complete-guide-inheritance-strategies-jpa-hibernate/
