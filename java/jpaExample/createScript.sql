@@ -5,7 +5,6 @@ CREATE TABLE SurveyAnswer (
     question_id BIGINT,
     PRIMARY KEY (id)
 );
-
 CREATE TABLE SurveyQuestion (
     id BIGINT NOT NULL AUTO_INCREMENT UNIQUE,
     active BIT,
