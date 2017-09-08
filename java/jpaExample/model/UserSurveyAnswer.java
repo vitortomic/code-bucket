@@ -3,8 +3,11 @@
  */
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -24,9 +27,8 @@ public class UserSurveyAnswer extends BaseModelImpl implements BaseModel {
 	@JoinColumn(name = "user_id")
 	public User user;
 	
-	@ManyToOne
-	@JoinColumn(name = "answer_id")
-	public SurveyAnswer selectedAnswer;
+	@ManyToMany
+	public List<SurveyAnswer> selectedAnswers;
 	
 	@ManyToOne
 	@JoinColumn(name = "question_id")

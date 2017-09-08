@@ -27,6 +27,8 @@ public class SurveyQuestion extends BaseModelImpl implements BaseModel {
 	
 	public Boolean hasOtherTextResponse;
 	
+	public Boolean isMultiselect;
+	
 	@OneToMany
 	@JoinColumn(name = "question_id")
 	public List<SurveyAnswer> answers;
