@@ -36,4 +36,12 @@ public class UserSurveyAnswer extends BaseModelImpl implements BaseModel {
 	
 	public String textAnswer;
 
+	public UserSurveyAnswer(User user, List<SurveyAnswer> selectedAnswers, SurveyQuestion question, String textAnswer) {
+		super();
+		this.user = user;
+		this.selectedAnswers = selectedAnswers;
+		this.question = question;
+		this.textAnswer = textAnswer;
+	}
+	
 }

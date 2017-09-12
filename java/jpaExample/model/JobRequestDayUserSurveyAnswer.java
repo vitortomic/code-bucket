@@ -3,6 +3,8 @@
  */
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -16,6 +18,12 @@ import javax.persistence.ManyToOne;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class JobRequestDayUserSurveyAnswer extends UserSurveyAnswer implements BaseModel {
+
+	public JobRequestDayUserSurveyAnswer(User user, List<SurveyAnswer> selectedAnswers, SurveyQuestion question,
+			String textAnswer, JobRequestDay jobRequestDay) {
+		super(user, selectedAnswers, question, textAnswer);
+		this.jobRequestDay = jobRequestDay;
+	}
 
 	/**
 	 * 

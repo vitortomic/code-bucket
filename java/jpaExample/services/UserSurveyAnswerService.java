@@ -5,8 +5,13 @@ package services.model;
 
 import java.util.List;
 
+import models.JobRequest;
+import models.JobRequestDay;
 import models.JobRequestDayUserSurveyAnswer;
 import models.JobRequestUserSurveyAnswer;
+import models.SurveyAnswer;
+import models.SurveyQuestion;
+import models.User;
 import models.UserSurveyAnswer;
 
 /**
@@ -43,4 +48,17 @@ public interface UserSurveyAnswerService extends BaseModelService<UserSurveyAnsw
 	 * @return
 	 */
 	public List<JobRequestDayUserSurveyAnswer> findByJobRequestDayId(Long jobRequestDayId);
+	
+	/**
+	 * creates and saves user answer
+	 * @param user
+	 * @param selectedAnswers
+	 * @param question
+	 * @param textAnswer
+	 * @param jobRequest
+	 * @param jobRequestDay
+	 * @return
+	 */
+	public UserSurveyAnswer create(User user, List<SurveyAnswer> selectedAnswers, 
+			SurveyQuestion question, String textAnswer, JobRequest jobRequest, JobRequestDay jobRequestDay);
 }

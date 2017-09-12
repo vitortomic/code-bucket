@@ -29,8 +29,9 @@ public class SurveyQuestionServiceImpl extends BaseModelServiceImpl<SurveyQuesti
 	 */
 	@Override
 	public List<SurveyQuestion> findByGroupType(SurveyQuestionGroupType type){
-		String hql = "from SurveyQuestionGroup group where group.type =:type ";
+		String hql = "from SurveyQuestionGroup group where group.type =:type";
 		Query query = JPA.em().createQuery(hql);
+		query.setParameter("type", type);
 		SurveyQuestionGroup group = (SurveyQuestionGroup)query.getSingleResult();
 		if(group != null){
 			return group.questions;
@@ -42,9 +43,11 @@ public class SurveyQuestionServiceImpl extends BaseModelServiceImpl<SurveyQuesti
 	 * (non-Javadoc)
 	 * @see services.model.SurveyQuestionService#findByGroupId(java.lang.Long)
 	 */
+	@Override
 	public List<SurveyQuestion> findByGroupId(Long groupId){
-		String hql = "from SurveyQuestionGroup group where group.id =:groupId ";
+		String hql = "from SurveyQuestionGroup group where group.id =:groupId";
 		Query query = JPA.em().createQuery(hql);
+		query.setParameter("groupId", groupId);
 		SurveyQuestionGroup group = (SurveyQuestionGroup)query.getSingleResult();
 		if(group != null){
 			return group.questions;
@@ -56,9 +59,23 @@ public class SurveyQuestionServiceImpl extends BaseModelServiceImpl<SurveyQuesti
 	 * (non-Javadoc)
 	 * @see services.model.SurveyQuestionService#findGroupByGroupId(java.lang.Long)
 	 */
+	@Override
 	public SurveyQuestionGroup findGroupByGroupId(Long groupId){
-		String hql = "from SurveyQuestionGroup group where group.id =:groupId ";
+		String hql = "from SurveyQuestionGroup group where group.id =:groupId";
 		Query query = JPA.em().createQuery(hql);
+		query.setParameter("groupId", groupId);
+		return (SurveyQuestionGroup)query.getSingleResult();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see services.model.SurveyQuestionService#findGroupByGroupType(java.lang.String)
+	 */
+	@Override
+	public SurveyQuestionGroup findGroupByGroupType(SurveyQuestionGroupType type){
+		String hql = "from SurveyQuestionGroup group where group.type =:type";
+		Query query = JPA.em().createQuery(hql);
+		query.setParameter("type", type);
 		return (SurveyQuestionGroup)query.getSingleResult();
 	}
 }

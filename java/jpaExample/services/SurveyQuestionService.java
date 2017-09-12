@@ -35,5 +35,12 @@ public interface SurveyQuestionService extends BaseModelService<SurveyQuestion> 
 	 * @return
 	 */
 	public SurveyQuestionGroup findGroupByGroupId(Long groupId);
+	
+	/**
+	 * returns question group object by type
+	 * @param groupId
+	 * @return
+	 */
+	public SurveyQuestionGroup findGroupByGroupType(SurveyQuestionGroupType type);
 
 }
