@@ -21,4 +21,9 @@ public class SurveyWebController extends SurveyController {
 		User user = getCurrentUser();
 		return submitQuestionResponse(user);
 	}
+	
+	public static Result getAnswers(Long userId, Long questionId){
+		if(userId == null)userId = getCurrentUser().getId();
+		return getAnswersForQuestionAndUser(userId, questionId);
+	}
 }

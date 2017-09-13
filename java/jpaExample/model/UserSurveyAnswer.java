@@ -44,4 +44,8 @@ public class UserSurveyAnswer extends BaseModelImpl implements BaseModel {
 		this.textAnswer = textAnswer;
 	}
 	
+	public UserSurveyAnswer(){
+		
+	}
+	
 }

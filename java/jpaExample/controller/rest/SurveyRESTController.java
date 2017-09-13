@@ -29,15 +29,28 @@ public class SurveyRESTController extends SurveyController {
 		}
 	}
 	
-	public Result submitQuestionResponseRest(String access_token){
+	public static Result submitQuestionResponseRest(String access_token){
 		try {
 			User user = getCurrentUser(access_token);
-			return super.submitQuestionResponse(user);
+			return submitQuestionResponse(user);
 		} catch (AuthException ae) {
 			return unauthorized();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Logger.error("SurveyRESTController submitQuestionResponseRest Error: ", e);
+			return status500(e);
+		}
+	}
+	
+	public static Result getAnswers(String access_token, Long questionId){
+		try {
+			User user = getCurrentUser(access_token);
+			return getAnswersForQuestionAndUser(user.getId(), questionId);
+		} catch (AuthException ae) {
+			return unauthorized();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.error("SurveyRESTController getAnswers Error: ", e);
 			return status500(e);
 		}
 	}

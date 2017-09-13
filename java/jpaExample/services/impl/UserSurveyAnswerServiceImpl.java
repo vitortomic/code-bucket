@@ -35,7 +35,7 @@ public class UserSurveyAnswerServiceImpl extends BaseModelServiceImpl<UserSurvey
 	 */
 	@Override
 	public List<UserSurveyAnswer> findByUserId(Long userId){
-		String hql = "from UserSurveyAnswer answer where answer.user.id :=userId";
+		String hql = "from UserSurveyAnswer answer where answer.user.id:=userId";
 		Query query = JPA.em().createQuery(hql);
 		query.setParameter("userId", userId);
 		return ListUtils.castList(UserSurveyAnswer.class, query.getResultList());
@@ -47,10 +47,10 @@ public class UserSurveyAnswerServiceImpl extends BaseModelServiceImpl<UserSurvey
 	 */
 	@Override
 	public List<UserSurveyAnswer> findByUserIdAndQuestionId(Long userId, Long questionId){
-		String hql = "from UserSurveyAnswer answer where answer.user.id :=userId and answer.question.id =:questionId";
+		String hql = "from UserSurveyAnswer answer";// where answer.user.id:=userId and answer.question.id:=questionId";
 		Query query = JPA.em().createQuery(hql);
-		query.setParameter("userId", userId);
-		query.setParameter("questionId", questionId);
+		//query.setParameter("userId", userId);
+		//query.setParameter("questionId", questionId);
 		return ListUtils.castList(UserSurveyAnswer.class, query.getResultList());
 	}
 	
@@ -60,7 +60,7 @@ public class UserSurveyAnswerServiceImpl extends BaseModelServiceImpl<UserSurvey
 	 */
 	@Override
 	public List<JobRequestUserSurveyAnswer> findByJobRequestId(Long jobRequestId){
-		String hql = "from JobRequestUserSurveyAnswer answer where answer.jobRequest.id :=jobRequestId";
+		String hql = "from JobRequestUserSurveyAnswer answer where answer.jobRequest.id:=jobRequestId";
 		Query query = JPA.em().createQuery(hql);
 		query.setParameter("jobRequestId", jobRequestId);
 		return ListUtils.castList(JobRequestUserSurveyAnswer.class, query.getResultList());
@@ -72,7 +72,7 @@ public class UserSurveyAnswerServiceImpl extends BaseModelServiceImpl<UserSurvey
 	 */
 	@Override
 	public List<JobRequestDayUserSurveyAnswer> findByJobRequestDayId(Long jobRequestDayId){
-		String hql = "from JobRequestDayUserSurveyAnswer answer where answer.jobRequestDay.id :=jobRequestDayId";
+		String hql = "from JobRequestDayUserSurveyAnswer answer where answer.jobRequestDay.id:=jobRequestDayId";
 		Query query = JPA.em().createQuery(hql);
 		query.setParameter("jobRequestDayId", jobRequestDayId);
 		return ListUtils.castList(JobRequestDayUserSurveyAnswer.class, query.getResultList());
