@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import controllers.BaseController;
+import enums.SurveyQuestionGroupType;
 import models.SurveyAnswer;
 import models.SurveyQuestion;
 import models.SurveyQuestionGroup;
@@ -38,15 +39,14 @@ public class SurveyController extends BaseController {
 	@Inject
 	protected static SurveyAnswerService answerService;
 	
-	public static Result getQuestionsByTypeOrId(){
+	public static Result getQuestionsByTypeOrId(Long groupId, String type){
 		try{
-			SurveyQuestionGroupTO groupTO = Json.fromJson(request().body().asJson(), SurveyQuestionGroupTO.class);
 			SurveyQuestionGroup group = null;
-			if(groupTO.id != null){
-				group = questionService.findGroupByGroupId(groupTO.id);
+			if(groupId != null){
+				group = questionService.findGroupByGroupId(groupId);
 			}
-			else if (groupTO.type != null){
-				group = questionService.findGroupByGroupType(groupTO.type);
+			else if (type != null){
+				group = questionService.findGroupByGroupType(SurveyQuestionGroupType.valueOf(type));
 			}
 			
 			if(group == null) return notFound();

@@ -13,8 +13,8 @@ import play.mvc.Result;
  */
 public class SurveyWebController extends SurveyController {
 	
-	public static Result getQuestionsByTypeOrIdWeb(){
-		return getQuestionsByTypeOrId();
+	public static Result getQuestionsByTypeOrIdWeb(Long groupId, String type){
+		return getQuestionsByTypeOrId(groupId, type);
 	}
 	
 	public static Result submitQuestionResponseWeb(){

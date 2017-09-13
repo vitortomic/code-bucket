@@ -15,11 +15,11 @@ import play.mvc.Result;
  */
 public class SurveyRESTController extends SurveyController {
 	
-	public static Result getQuestionsByTypeOrIdRest(String access_token){
+	public static Result getQuestionsByTypeOrIdRest(String access_token, Long groupId, String type){
 		try {
 			@SuppressWarnings("unused")
 			User user = getCurrentUser(access_token);
-			return getQuestionsByTypeOrId();
+			return getQuestionsByTypeOrId(groupId, type);
 		} catch (AuthException ae) {
 			return unauthorized();
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class SurveyRESTController extends SurveyController {
 		}
 	}
 	
-	public static Result getAnswers(String access_token, Long questionId){
+	public static Result getAnswers(String access_token, Long userId, Long questionId){
 		try {
 			User user = getCurrentUser(access_token);
 			return getAnswersForQuestionAndUser(user.getId(), questionId);
