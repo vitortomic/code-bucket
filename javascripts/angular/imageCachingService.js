@@ -29,3 +29,7 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 		}
 	};
 }]);
+//usage
+imageCachingService.getImageUri(message.sender.imageUrl).then(function(img){
+	message.avatarImgUri = img;
+})
