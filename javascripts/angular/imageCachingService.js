@@ -14,6 +14,7 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 	
 	var cacheImage = function(imgUrl){
 		return fileService.getFilePromiseBase64(imgUrl).then(function(response){
+			cachedImages.set(imgUrl, response);
 			return response;
 		});
 	}
