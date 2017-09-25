@@ -22,6 +22,9 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 	
 	return {
 		getImageUri : function(imgUrl){
+			if(!imgUrl){
+				return $q.reject("No image url provided");
+			}
 			var imageUri = getImageById(getImageUrlWithoutExtenstion(imgUrl));
 			//if image is cached in the map wrap it into a promise and return
 			if(imageUri){
@@ -33,7 +36,11 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 	};
 }]);
 //usage
-imageCachingService.getImageUri(message.sender.imageUrl).then(function(img){
+imageCachingService.getImageUri(message.sender.imageUrl)
+.then(function(img){
 	message.avatarImgUri = img;
-})
-<img data-ng-src="{{message.avatarImgUri}}" class="md-avatar"/>
+}, function(error){
+	message.avatarImgUri = null;
+});
+<img ng-show="message.avatarImgUri" data-ng-src="{{message.avatarImgUri}}" class="md-avatar"/>
+<img ng-show="!message.avatarImgUri" src="/images/icons/no_picture_big.png" class="md-avatar"/>
