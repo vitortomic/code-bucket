@@ -22,9 +22,11 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 	return {
 		getImageUri : function(imgUrl){
 			var imageUri = getImageById(getImageUrlWithoutExtenstion(imgUrl));
+			//if image is cached in the map wrap it into a promise and return
 			if(imageUri){
 				return $q.resolve(imageUri);
 			}
+			//if the image is not cached, return promise for fetching and caching the image
 			return cacheImage(getImageUrlWithoutExtenstion(imgUrl));
 		}
 	};
