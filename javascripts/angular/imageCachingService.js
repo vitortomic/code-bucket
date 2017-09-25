@@ -33,3 +33,4 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 imageCachingService.getImageUri(message.sender.imageUrl).then(function(img){
 	message.avatarImgUri = img;
 })
+<img data-ng-src="{{message.avatarImgUri}}" class="md-avatar"/>
