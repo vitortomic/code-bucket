@@ -3,6 +3,7 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 	var cachedImages = new Map();
 	var promise = $q.defer();
 	
+	//userImageUrl contains file type extension while the GET route only requires the ID string
 	var getImageUrlWithoutExtenstion = function(userImageUrl){
 		var dotIndex = userImageUrl.indexOf(".");
 		return imageUrlWithoutExtension = userImageUrl.substring(0, dotIndex);
