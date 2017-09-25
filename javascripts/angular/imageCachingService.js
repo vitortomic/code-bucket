@@ -22,6 +22,7 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 	
 	return {
 		getImageUri : function(imgUrl){
+			//reject promise if no img url is provided
 			if(!imgUrl){
 				return $q.reject("No image url provided");
 			}
