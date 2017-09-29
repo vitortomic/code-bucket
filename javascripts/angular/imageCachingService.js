@@ -17,7 +17,7 @@ app.factory('imageCachingService', ['fileService','$q', function(fileService, $q
 		//if promise for the provided url was already made return it
 		var savedPromise = promiseMap.get(imgUrl);
 		if(savedPromise) return savedPromise;
-		//othervise get the img
+		//otherwise get the image
 		var cachePromise = fileService.getFilePromiseBase64(imgUrl).then(function(response){
 			cachedImages.set(imgUrl, response);
 			return response;
