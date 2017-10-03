@@ -13,8 +13,10 @@ app.factory('stompService', ['$q', '$timeout', '$location', '$localStorage', fun
 				return listener.promise;
 			},
 			send : function(message){
+				var messageForSend = angular.copy(message);
+				if(messageForSend.avatarImgUri) messageForSend.avatarImgUri = null;
 				connected.promise.then(function(){
-					socket.stomp.send("/api/v1/chat/messages", {}, JSON.stringify(message));
+					socket.stomp.send("/api/v1/chat/messages", {}, JSON.stringify(messageForSend));
 				});				
 			},
 			isConnected : function(){
@@ -97,16 +99,3 @@ app.factory('stompService', ['$q', '$timeout', '$location', '$localStorage', fun
 	
 	return service;
 }]);
-
-/* //usage
-  var connectToStompService = function(){
-		if(!stompService.isConnected()){
-			var institutionId = $localStorage.currentUser.institution.id
-			stompService.connect(institutionId, $scope.patientId);
-		}
-		stompService.receive().then(null, null, function(response){
-			var message = formatUpdateMessage(response.message);
-			$scope.messages.push(message);
-		});
-	};
-*/
