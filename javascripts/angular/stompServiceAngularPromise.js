@@ -20,6 +20,13 @@ app.factory('stompService', ['$q', '$timeout', '$location', '$localStorage', fun
 			isConnected : function(){
 				if(!socket || !socket.stomp) return false;
 				return socket.stomp.connected;
+			},
+			disconnect : function(){
+				if(socket && socket.stomp){
+					socket.stomp.disconnect(function(){
+						console.log("Socket disconnected");
+					})
+				}
 			}
 	};
 	
