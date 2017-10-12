@@ -1,3 +1,15 @@
+//pure es6 promise
+function promisTest(){
+	return new Promise((resolve)=>{
+        setTimeout(()=> resolve("hello world"),10000)
+    });
+}
+
+var promis = promisTest();
+promis.then((result)=>console.log("rezultat:"+ result));
+
+
+//deffered version
 Promise.deffered = function(){
     var result = {};
     result.promise = new Promise((resolve,reject)=>{
