@@ -6,7 +6,7 @@ function promisTest(){
 }
 
 var promis = promisTest();
-promis.then((result)=>console.log("rezultat:"+ result));
+promis.then((result)=>console.log(result));
 
 
 //deffered version
