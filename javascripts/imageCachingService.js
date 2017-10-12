@@ -37,3 +37,14 @@ function imageCachingService(fileService){
 		}
 	};
 }
+
+//usage
+imageCachingService(fileService).getImageUri(message.sender.imageUrl)
+	.then(function(img){
+		message.avatarImgUri = img;
+	}, function(error){
+		message.avatarImgUri = null;
+	}
+);
+<img ng-show="message.avatarImgUri" data-ng-src="{{message.avatarImgUri}}" class="md-avatar"/>
+<img ng-show="!message.avatarImgUri" src="/images/icons/no_picture_big.png" class="md-avatar"/>
