@@ -34,6 +34,7 @@ public class SurveyQuestion extends BaseModelImpl implements BaseModel {
 	
 	@OneToMany
 	@JoinColumn(name = "question_id")
+	@Where(clause = "isActive = 1")
 	public List<SurveyAnswer> answers;
 	
 }
