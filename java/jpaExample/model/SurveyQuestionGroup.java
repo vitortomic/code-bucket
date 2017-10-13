@@ -11,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Where;
+
 import enums.SurveyQuestionGroupType;
 
 /**
@@ -27,6 +29,7 @@ public class SurveyQuestionGroup extends BaseModelImpl implements BaseModel {
 	
 	@OneToMany
 	@JoinColumn(name = "group_id")
+	@Where(clause="active <> 0")
 	public List<SurveyQuestion> questions;
 	
 	@Enumerated(EnumType.STRING)
