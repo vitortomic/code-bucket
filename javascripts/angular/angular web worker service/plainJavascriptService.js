@@ -1,27 +1,18 @@
-function scoringService() {
-  
-  var scoreItems = function (items, weights) {
-    return new Promise((resolve)=>{
-        var worker = new Worker('/worker-demo/scoring.worker.js');
-        var orders = {
-            items: items,
-            weights: weights
-        };
-        worker.postMessage(orders);
-        worker.onmessage = function (e) {
-            if (e.data && e.data.ready) {
-                resolve(e.data.items);
-            }
-        };
+//deffered version
+Promise.deffered = function(){
+    var result = {};
+    result.promise = new Promise((resolve,reject)=>{
+        result.resolve = resolve;
+        result.reject = reject;
     });
-    
-  };
-  var hostObject = {
-    scoreItems: function (items, weights) {
-      return scoreItems(items, weights);
-    }
-  };
+    return result;
+};
 
-  return hostObject;
-
+function getPromise(){
+    var deffered = new Promise.deffered();
+    setTimeout(()=>deffered.resolve("hello world"),1000);
+    return deffered.promise;
 }
+
+var promis = getPromise();
+promis.then((result)=>console.log(result));
