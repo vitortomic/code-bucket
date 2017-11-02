@@ -17,10 +17,10 @@ const piramida = function(){
     }
 
 const async = async function test(){
-    var x = await odlozi("start")
-    var y = await odlozi(x);
-    var z = await odlozi(y);
-    var a = await odlozi(z);
+    let x = await odlozi("start")
+    let y = await odlozi(x);
+    let z = await odlozi(y);
+    let a = await odlozi(z);
     console.log(a);
 }
 
