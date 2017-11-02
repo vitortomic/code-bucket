@@ -14,7 +14,7 @@ const piramida = function(){
                 )
             )
         )
-    }
+}
 
 const async = async function test(){
     let x = await odlozi("start")
