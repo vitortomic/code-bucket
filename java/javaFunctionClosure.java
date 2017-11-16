@@ -1,21 +1,8 @@
-//*******************************************************************
-// Dear CompileJava users,
-//
-// CompileJava has been operating since 2013 completely free. If you
-// find this site useful, or would otherwise like to contribute, then
-// please consider a donation (link in 'More Info' tab) to support
-// development of the new CompileJava website (stay tuned!).
-//
-// Most sincerely, Z.
-//*******************************************************************
-
-import java.lang.Math; // headers MUST be above the first class
 import java.util.function.Function;
 
-// one class needs to have a main() method
-public class HelloWorld
+
+public class Main
 {
-  // arguments are passed using the text field below this editor
   public static void main(String[] args)
   {	
     Osoba o = new Osoba();
