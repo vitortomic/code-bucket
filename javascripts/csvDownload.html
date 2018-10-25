@@ -1,0 +1,30 @@
+<script src="FileSaver.js"></script><!-- https://github.com/eligrey/FileSaver.js -->
+<script>
+    document.addEventListener("DOMContentLoaded", ()=>{
+        document.querySelector("#dl").addEventListener("click", async ()=>{
+            try {
+                //res = await (await fetchCsv()).text()
+                res = await fetchCsv()
+                const blob = new Blob([res], {type: "text/csv"});
+                saveAs(blob, "report.csv");
+            }
+            catch (e) {
+                alert(e)
+            }
+        })
+    })
+    
+    const fetchCsv = ()=>{
+        return fetch('http://localhost:8280/insurance2/v1/insurance2/sales.csv', {
+            method: 'GET',
+            headers: {
+                'Authorization' : 'Bearer 77845f10-bf86-32a1-8e83-7f2ea9dbcb06'
+            }
+        })
+        .then(res=>{
+            if (!res.ok) throw Error(res.statusText)
+            return res.text()
+        })
+    }
+</script>
+<button id="dl">Download</button>
