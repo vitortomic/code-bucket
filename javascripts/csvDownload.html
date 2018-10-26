@@ -26,8 +26,8 @@
 
     let token
 
-    const setToken = (token)=>{
-        this.token = token
+    const setToken = (value)=>{
+        token = value
     }
 
     const fetchCsv = ()=>{
@@ -35,7 +35,7 @@
         return fetch(`http://localhost:8280/insurance2/v1/insurance2/claims.csv${filterString}`, {
             method: 'GET',
             headers: {
-                'Authorization' : `Bearer ${this.token}`
+                'Authorization' : `Bearer ${token}`
             }
         })
         .then(res=>{
@@ -48,7 +48,7 @@
         return fetch('http://localhost:8280/insurance2/v1/insurance2/claims/count', {
             method: 'GET',
             headers: {
-                'Authorization' : `Bearer ${this.token}`
+                'Authorization' : `Bearer ${token}`
             }
         })
         .then(res=>{
