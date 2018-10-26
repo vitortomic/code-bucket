@@ -61,16 +61,16 @@
         try {
             let statuses = await fetchClaimStatuses()
             statuses.forEach(status=>{
-            let statusButton = document.createElement("button")
-            statusButton.id = status.option
-            statusButton.innerText = status.name
-            statusButton.addEventListener('click', ()=>{
-                filter = status
-                element.dispatchEvent(new Event('buttonSelected'))
-                statusButton.classList.add('selected')
+                let statusButton = document.createElement("button")
+                statusButton.id = status.option
+                statusButton.innerText = status.name
+                statusButton.addEventListener('click', ()=>{
+                    filter = status
+                    element.dispatchEvent(new Event('buttonSelected'))
+                    statusButton.classList.add('selected')
+                })
+                element.appendChild(statusButton)
             })
-            element.appendChild(statusButton)
-        })
         }
         catch (e) {
             alert(e)
