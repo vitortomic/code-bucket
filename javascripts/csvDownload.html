@@ -57,7 +57,7 @@
         })
     }
 
-    const populateStatuses = async (element)=>{
+    const populateStatuses = async (statusPicker)=>{
         try {
             let statuses = await fetchClaimStatuses()
             statuses.forEach(status=>{
@@ -66,10 +66,10 @@
                 statusButton.innerText = status.name
                 statusButton.addEventListener('click', ()=>{
                     filter = status
-                    element.dispatchEvent(new Event('buttonSelected'))
+                    statusPicker.dispatchEvent(new Event('buttonSelected'))
                     statusButton.classList.add('selected')
                 })
-                element.appendChild(statusButton)
+                statusPicker.appendChild(statusButton)
             })
         }
         catch (e) {
