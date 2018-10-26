@@ -1,5 +1,6 @@
 <script src="FileSaver.js"></script><!-- https://github.com/eligrey/FileSaver.js -->
 <script>
+
     document.addEventListener("DOMContentLoaded", ()=>{
         document.querySelector("#dl").addEventListener("click", async ()=>{
             try {
@@ -12,12 +13,29 @@
                 alert(e)
             }
         })
+        const statusPicker = document.querySelector("#statusPicker")
+        document.querySelector("#saveToken").addEventListener('click', ()=>{
+            let token = document.querySelector("#token").value
+            setToken(token)
+            populateStatuses(statusPicker)
+            setButtonSelectedListener(statusPicker)
+        })
     })
+
+    let filter
+
+    let token
+
+    const setToken = (token)=>{
+        this.token = token
+    }
+
     const fetchCsv = ()=>{
-        return fetch('http://localhost:8280/insurance2/v1/insurance2/sales.csv', {
+        let filterString = filter && filter.option != `ALL` ? `?warrantyClaimStatus=${filter.option}` : ``
+        return fetch(`http://localhost:8280/insurance2/v1/insurance2/claims.csv${filterString}`, {
             method: 'GET',
             headers: {
-                'Authorization' : 'Bearer 77845f10-bf86-32a1-8e83-7f2ea9dbcb06'
+                'Authorization' : `Bearer ${this.token}`
             }
         })
         .then(res=>{
@@ -25,5 +43,56 @@
             return res.text()
         })
     }
+    
+    const fetchClaimStatuses = ()=>{
+        return fetch('http://localhost:8280/insurance2/v1/insurance2/claims/count', {
+            method: 'GET',
+            headers: {
+                'Authorization' : `Bearer ${this.token}`
+            }
+        })
+        .then(res=>{
+            if (!res.ok) throw Error(res.statusText)
+            return res.json()
+        })
+    }
+
+    const populateStatuses = async (element)=>{
+        try {
+            let statuses = await fetchClaimStatuses()
+            statuses.forEach(status=>{
+            let statusButton = document.createElement("button")
+            statusButton.id = status.option
+            statusButton.innerText = status.name
+            statusButton.addEventListener('click', ()=>{
+                filter = status
+                element.dispatchEvent(new Event('buttonSelected'))
+                statusButton.classList.add('selected')
+            })
+            element.appendChild(statusButton)
+        })
+        }
+        catch (e) {
+            alert(e)
+        }
+    }
+
+    const setButtonSelectedListener = (element)=>{
+        element.addEventListener('buttonSelected', (ev)=>{
+            Array.from(ev.target.children).forEach(child=>child.classList.remove('selected'))
+        })
+    }
+
 </script>
+<style>
+    .selected {
+        transform: scale(1.2, 1.2)
+    }
+</style>
+<input id="token" type="text"></input>
+<button id="saveToken">Save token</button>
+</br>
+</br>
+<div id="statusPicker"></div>
+</br>
 <button id="dl">Download</button>
