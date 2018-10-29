@@ -17,6 +17,7 @@
         document.querySelector("#saveToken").addEventListener('click', ()=>{
             let token = document.querySelector("#token").value
             setToken(token)
+            resetStatusPicker()
             populateStatuses(statusPicker)
             setButtonSelectedListener(statusPicker)
         })
@@ -81,6 +82,10 @@
         statusPicker.addEventListener('buttonSelected', (ev)=>{
             Array.from(ev.target.children).forEach(child=>child.classList.remove('selected'))
         })
+    }
+
+    const resetStatusPicker = ()=>{
+        document.querySelector("#statusPicker").innerHTML = ""
     }
 
 </script>
