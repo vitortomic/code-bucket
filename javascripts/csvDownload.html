@@ -2,6 +2,14 @@
 <script>
 
     document.addEventListener("DOMContentLoaded", ()=>{
+
+        let existingToken = localStorage.getItem('token')
+
+        if (existingToken) {
+            document.querySelector("#token").value = existingToken
+            token = existingToken
+        }
+
         document.querySelector("#dl").addEventListener("click", async ()=>{
             try {
                 //res = await (await fetchCsv()).text()
@@ -13,13 +21,25 @@
                 alert(e)
             }
         })
-        const statusPicker = document.querySelector("#statusPicker")
         document.querySelector("#saveToken").addEventListener('click', ()=>{
             let token = document.querySelector("#token").value
             setToken(token)
             resetStatusPicker()
-            populateStatuses(statusPicker)
-            setButtonSelectedListener(statusPicker)
+            
+        })
+        document.querySelector("#claims").addEventListener('click', (event)=>{
+            document.querySelector("#sales").classList.remove("selected")
+            event.target.classList.add("selected")
+            entity = "claims"
+            statusName = "warrantyClaimStatus"
+            resetStatusPicker()
+        })
+        document.querySelector("#sales").addEventListener('click', (event)=>{
+            document.querySelector("#claims").classList.remove("selected")
+            event.target.classList.add("selected")
+            entity = "sales"
+            statusName = "carePlanStatus"
+            resetStatusPicker()
         })
     })
 
@@ -27,13 +47,18 @@
 
     let token
 
+    let entity = "claims"
+
+    let statusName = "warrantyClaimStatus"
+
     const setToken = (value)=>{
+        localStorage.setItem('token', value)
         token = value
     }
 
     const fetchCsv = ()=>{
-        let filterString = filter && filter.option != `ALL` ? `?warrantyClaimStatus=${filter.option}` : ``
-        return fetch(`http://localhost:8280/insurance2/v1/insurance2/claims.csv${filterString}`, {
+        let filterString = filter && filter.option != `ALL` ? `?${statusName}=${filter.option}` : ``
+        return fetch(`http://localhost:8280/insurance2/v1/insurance2/${entity}.csv${filterString}`, {
             method: 'GET',
             headers: {
                 'Authorization' : `Bearer ${token}`
@@ -46,7 +71,7 @@
     }
     
     const fetchClaimStatuses = ()=>{
-        return fetch('http://localhost:8280/insurance2/v1/insurance2/claims/count', {
+        return fetch(`http://localhost:8280/insurance2/v1/insurance2/${entity}/count`, {
             method: 'GET',
             headers: {
                 'Authorization' : `Bearer ${token}`
@@ -85,7 +110,11 @@
     }
 
     const resetStatusPicker = ()=>{
-        document.querySelector("#statusPicker").innerHTML = ""
+        filter = null
+        const statusPicker = document.querySelector("#statusPicker")
+        statusPicker.innerHTML = ""
+        populateStatuses(statusPicker)
+        setButtonSelectedListener(statusPicker)
     }
 
 </script>
@@ -96,6 +125,12 @@
 </style>
 <input id="token" type="text"></input>
 <button id="saveToken">Save token</button>
+</br>
+</br>
+<div>
+    <button id="claims">Claims</button>
+    <button id="sales">Sales</button>
+</div>
 </br>
 </br>
 <div id="statusPicker"></div>
